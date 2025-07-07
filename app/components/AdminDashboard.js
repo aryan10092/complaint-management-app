@@ -56,7 +56,7 @@ import {
   ShoppingCart,
 } from '@mui/icons-material';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({darkmode}) => {
   const [complaints, setComplaints] = useState([]);
   const [filteredComplaints, setFilteredComplaints] = useState([]);
   const [loading, setLoading] = useState(true)
@@ -470,7 +470,7 @@ const AdminDashboard = () => {
             <TableContainer>
               <Table sx={{ minWidth: 650 }}>
                 <TableHead>
-                  <TableRow sx={{ backgroundColor: 'grey.50' }}>
+                  <TableRow sx={{ backgroundColor: darkmode?'':'grey.50' }}>
                     <TableCell sx={{ fontWeight: 600, py: 2 }}>Complaint Details</TableCell>
                     <TableCell sx={{ fontWeight: 600, py: 2 }}>Category</TableCell>
                     <TableCell sx={{ fontWeight: 600, py: 2 }}>Priority</TableCell>
