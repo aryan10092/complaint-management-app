@@ -291,7 +291,7 @@ const AdminDashboard = ({darkmode}) => {
                 </Box>
               </Stack>
             </Box>
-            <Stack direction="row" spacing={2}>
+             {/* <Stack direction="row" spacing={2}>
               <Tooltip title="Refresh Data">
                 <IconButton 
                   color="inherit" 
@@ -308,7 +308,8 @@ const AdminDashboard = ({darkmode}) => {
                 </IconButton>
               </Tooltip>
 
-            </Stack> </Stack>
+             </Stack> */}
+                    </Stack>
         </Paper>
 
        
