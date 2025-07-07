@@ -1,103 +1,307 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import ComplaintForm from './components/ComplaintForm';
+import AdminDashboard from './components/AdminDashboard';
+import { 
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Tabs, 
+  Tab, 
+  Box, 
+  Container,
+  Paper,
+  ThemeProvider,
+  createTheme,
+  CssBaseline,
+  Fade,
+  IconButton,
+  Tooltip
+} from '@mui/material';
+import { 
+  SupportAgent,
+  Dashboard,
+  ReportProblem,
+  Brightness4,
+  Brightness7
+} from '@mui/icons-material';
+
+// Create custom theme
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#2563eb',
+      light: '#3b82f6',
+      dark: '#1d4ed8',
+    },
+    secondary: {
+      main: '#7c3aed',
+      light: '#8b5cf6',
+      dark: '#6d28d9',
+    },
+    background: {
+      default: '#f8fafc',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#1e293b',
+      secondary: '#64748b',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    h4: {
+      fontWeight: 700,
+      letterSpacing: '-0.02em',
+    },
+    h6: {
+      fontWeight: 600,
+    },
+  },
+  shape: {
+    borderRadius: 12,
+  },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontWeight: 600,
+          fontSize: '1rem',
+          minHeight: 48,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        },
+      },
+    },
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#3b82f6',
+      light: '#60a5fa',
+      dark: '#2563eb',
+    },
+    secondary: {
+      main: '#8b5cf6',
+      light: '#a78bfa',
+      dark: '#7c3aed',
+    },
+    background: {
+      default: '#0f172a',
+      paper: '#1e293b',
+    },
+    text: {
+      primary: '#f1f5f9',
+      secondary: '#cbd5e1',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+  },
+  shape: {
+    borderRadius: 12,
+  },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontWeight: 600,
+          fontSize: '1rem',
+          minHeight: 48,
+        },
+      },
+    },
+  },
+});
+
+function TabPanel({ children, value, index, ...other }) {
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Fade in={true} timeout={300}>
+          <Box sx={{ py: 4 }}>{children}</Box>
+        </Fade>
+      )}
+    </div>
+  );
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [activeTab, setActiveTab] = useState(0);
+  const [darkMode, setDarkMode] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  }
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const theme = darkMode ? darkTheme : lightTheme;
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
+        
+        <AppBar 
+          position="static" 
+          elevation={0}
+          sx={{ 
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <Toolbar sx={{ py: 1 }}>
+            <ReportProblem sx={{ mr: 2, fontSize: 28 }} />
+            <Typography 
+              variant="h6" 
+              component="div" 
+              sx={{ 
+                flexGrow: 1,
+                fontWeight: 700,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              ComplaintFlow Pro
+            </Typography>
+            <Tooltip title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
+              <IconButton color="inherit" onClick={toggleDarkMode}>
+                {darkMode ? <Brightness7 /> : <Brightness4 />}
+              </IconButton>
+            </Tooltip>
+          </Toolbar>
+        </AppBar>
+
+       
+        <Box
+          sx={{
+            background: darkMode 
+              ? 'linear-gradient(135deg, #1e293b 0%, #334155 100%)'
+              : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+            py: 6,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <Container maxWidth="lg">
+            <Box textAlign="center">
+              <Typography 
+                variant="h4" 
+                component="h1" 
+                gutterBottom
+                sx={{ 
+                  color: 'text.primary',
+                  mb: 2,
+                }}
+              >
+                Professional Complaint Management
+              </Typography>
+              <Typography 
+                variant="h6" 
+                color="text.secondary"
+                sx={{ maxWidth: 600, mx: 'auto' }}
+              >
+                Streamline your customer feedback process with our comprehensive 
+                complaint tracking and resolution system
+              </Typography>
+            </Box>
+          </Container>
+        </Box>
+
+        
+        <Container maxWidth="lg">
+          <Paper 
+            elevation={0}
+            sx={{ 
+              mt: -3,
+              mb: 4,
+              position: 'relative',
+              zIndex: 1,
+              borderRadius: 2,
+              overflow: 'hidden',
+              border: '1px solid',
+              borderColor: 'divider',
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+            <Tabs 
+              value={activeTab} 
+              onChange={handleTabChange}
+              variant="fullWidth"
+              sx={{
+                '& .MuiTabs-indicator': {
+                  height: 3,
+                  borderRadius: '3px 3px 0 0',
+                },
+              }}
+            >
+              <Tab 
+                icon={<SupportAgent />}
+                iconPosition="start"
+                label="Submit Complaint" 
+                sx={{ py: 3 }}
+              />
+              <Tab 
+                icon={<Dashboard />}
+                iconPosition="start"
+                label="Admin Dashboard" 
+                sx={{ py: 3 }}
+              />
+            </Tabs>
+          </Paper>
+
+          
+          <TabPanel value={activeTab} index={0}>
+            <ComplaintForm />
+          </TabPanel>
+          
+          <TabPanel value={activeTab} index={1}>
+            <AdminDashboard />
+          </TabPanel>
+        </Container>
+
+      
+        <Box
+          component="footer"
+          sx={{
+            py: 4,
+            mt: 8,
+            borderTop: '1px solid',
+            borderColor: 'divider',
+            backgroundColor: 'background.paper',
+          }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {/* <Container maxWidth="lg">
+            <Typography 
+              variant="body2" 
+              color="text.secondary" 
+              align="center"
+            >
+              © 2025 ComplaintFlow Pro. Built with Next.js & Material-UI
+            </Typography>
+          </Container> */}
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
 }
