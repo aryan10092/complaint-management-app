@@ -276,7 +276,7 @@ export default function Home() {
           </TabPanel>
           
           <TabPanel value={activeTab} index={1}>
-            <AdminDashboard />
+            <AdminDashboard darkmode={darkMode} />
           </TabPanel>
         </Container>
 
